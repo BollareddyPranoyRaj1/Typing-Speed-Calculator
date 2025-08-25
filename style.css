@@ -62,3 +62,35 @@ button:hover {
 #accuracy {
     margin: 5px 0;
 }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px #000;
+    z-index: 100;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #333;
+    color: #eee;
+}
+
+.popup button:hover {
+    background-color: #444;
+}
