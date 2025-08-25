@@ -1,71 +1,125 @@
+:root {
+    --black-1: #343434;
+    --black-2: #232323;
+    --black-3: #181818;
+    --black-4: #000000;
+    --text-primary: #EEEEEE;
+    --text-secondary: #9E9E9E;
+    --accent-green: #00e676;
+    /* neon green success */
+    --accent-red: #ff4444;
+    /* soft red error */
+    --btn-bg: #2a2a2a;
+    --btn-hover: var(--accent-green);
+    --btn-active: #bb2d2d;
+    /* dark red active */
+}
+
+
+/* Background Gradient for entire page */
+
 body {
-    background-color: #121212;
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-primary);
+    background: linear-gradient(90deg, var(--black-1), var(--black-2) 33%, var(--black-3) 66%, var(--black-4));
 }
+
+
+/* Centered container */
 
 .container {
     max-width: 800px;
     margin: 40px auto;
-    /* center horizontally with spacing from top */
     padding: 20px;
-    text-align: center;
-    background-color: #1a1a1a;
+    background-color: var(--black-2);
     border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    text-align: center;
 }
 
+
+/* Sample text box */
+
 #sample-text {
-    background-color: #2a2a2a;
+    background-color: var(--black-1);
     padding: 15px;
     border-radius: 8px;
     font-size: 18px;
     margin-bottom: 10px;
-    text-align: left;
     white-space: pre-wrap;
-    /* keep paragraph line breaks */
     max-height: 300px;
     overflow-y: auto;
+    text-align: left;
+    color: var(--text-secondary);
+    /* Updated styles */
+    color: #ffffff;
+    /* Full white */
+    font-weight: 700;
+    /* Bold */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
+/* Input field styling */
 
 #input-field {
     width: 100%;
     height: 150px;
     margin-top: 10px;
-    padding: 10px;
     font-size: 16px;
     border-radius: 8px;
-    border: 1px solid #555;
-    background-color: #1e1e1e;
-    color: #fff;
+    border: 1px solid #444;
+    background-color: var(--black-3);
+    color: var(--text-primary);
+    color: #ffffff;
+    /* Full white */
+    font-weight: 700;
+    /* Bold */
     resize: vertical;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
 #input-field.correct {
-    border-color: #4caf50;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 12px rgba(0, 230, 118, 0.7);
 }
 
 #input-field.incorrect {
-    border-color: #f44336;
+    border-color: var(--accent-red);
+    box-shadow: 0 0 12px rgba(255, 68, 68, 0.7);
 }
+
+
+/* Buttons */
 
 button {
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 15px;
     cursor: pointer;
-    background-color: #333;
-    color: #eee;
+    background-color: var(--btn-bg);
+    color: var(--text-primary);
     border: none;
-    border-radius: 5px;
-    transition: background 0.2s;
+    border-radius: 6px;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: var(--btn-hover);
+    color: #121212;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.7);
 }
+
+button:active {
+    background-color: var(--btn-active);
+    color: #fff;
+}
+
+
+/* Timer, WPM, Accuracy styles */
 
 #timer,
 #wpm,
@@ -74,16 +128,19 @@ button:hover {
     font-weight: bold;
 }
 
+
+/* Popup styling */
+
 .popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #1e1e1e;
+    background-color: var(--black-3);
     padding: 25px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 0 20px #000;
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.5);
     z-index: 100;
 }
 
@@ -95,61 +152,199 @@ button:hover {
     margin: 10px;
     padding: 12px 24px;
     font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
+    border-radius: 6px;
     border: none;
-    background-color: #333;
-    color: #eee;
-    transition: background 0.2s;
+    background-color: var(--accent-green);
+    color: #121212;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
 }
 
 .popup button:hover {
-    background-color: #555;
+    background-color: #00cc56;
+    transform: scale(1.05);
 }
 
-#results-popup {
+
+/* Completion popup */
+
+#completion-popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 25px #000;
-    z-index: 200;
+    width: 400px;
+    height: 400px;
+    background-color: var(--black-3);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
     opacity: 0;
-    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 230, 118, 0.4);
 }
 
-#results-popup.show {
+#completion-popup.show {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
 }
 
-#results-popup h2 {
-    margin-bottom: 20px;
-    font-size: 28px;
-    color: #4caf50;
+#completion-popup h2 {
+    font-size: 36px;
+    color: var(--accent-green);
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-#results-popup p {
-    margin: 10px 0;
+#completion-popup p {
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#completion-popup button {
+    padding: 15px 35px;
     font-size: 18px;
-}
-
-#results-popup button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 8px;
+    border-radius: 10px;
+    background-color: var(--accent-green);
     border: none;
-    background-color: #333;
-    color: #eee;
+    color: #121212;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.25s, transform 0.25s;
 }
 
-#results-popup button:hover {
-    background-color: #555;
+#completion-popup button:hover {
+    background-color: #00cc56;
+    color: #fff;
+    transform: scale(1.08);
+}
+
+
+/* Results circles */
+
+.results-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0 30px 0;
+}
+
+.result-circle {
+    width: 120px;
+    height: 120px;
+    background-color: var(--black-1);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: var(--accent-green);
+    font-weight: bold;
+    user-select: none;
+}
+
+
+/* Blur effect on main container */
+
+.blur-background {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* Responsive media queries */
+
+@media (max-width: 900px) {
+    .container {
+        max-width: 90%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+    #completion-popup {
+        width: 90%;
+        height: auto;
+        max-width: 400px;
+        max-height: 90vh;
+        padding: 20px;
+    }
+    .results-container {
+        gap: 25px;
+    }
+    .result-circle {
+        width: 100px;
+        height: 100px;
+        font-size: 18px;
+    }
+    #completion-popup h2 {
+        font-size: 28px;
+    }
+    #completion-popup p {
+        font-size: 18px;
+    }
+    #completion-popup button {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    #sample-text {
+        font-size: 16px;
+        max-height: 200px;
+    }
+    #input-field {
+        height: 120px;
+        font-size: 14px;
+    }
+    button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .results-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .result-circle {
+        width: 90px;
+        height: 90px;
+        font-size: 16px;
+    }
+    #completion-popup h2 {
+        font-size: 24px;
+    }
+    #completion-popup p {
+        font-size: 16px;
+    }
+    #completion-popup button {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    #input-field {
+        height: 100px;
+    }
+    .result-circle {
+        width: 80px;
+        height: 80px;
+        font-size: 14px;
+    }
+    #completion-popup h2 {
+        font-size: 20px;
+    }
+    #completion-popup p {
+        font-size: 14px;
+    }
+    #completion-popup button {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
 }
