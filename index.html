@@ -12,12 +12,13 @@
     <div class="container">
         <h1>Typing Speed Test</h1>
 
-        <label for="time-select">Select Test Duration:</label>
-        <select id="time-select">
-        <option value="1">1 Minute</option>
-        <option value="2">2 Minutes</option>
-    </select>
         <button id="start">Start Test</button>
+
+        <div id="time-popup" class="popup hidden">
+            <p>Select Duration:</p>
+            <button class="time-btn" data-min="1">1 Minute</button>
+            <button class="time-btn" data-min="2">2 Minutes</button>
+        </div>
 
         <p id="timer">Time Left: 0s</p>
         <p id="sample-text"></p>
@@ -26,6 +27,7 @@
         <p id="accuracy">Accuracy: 100%</p>
         <button id="restart">Restart</button>
     </div>
+
 
     <script src="script.js"></script>
 </body>
