@@ -22,6 +22,7 @@ function generateParagraph(durationMinutes) {
     return text.trim();
 }
 
+let startTime;
 
 function startTest(durationMinutes) {
     timeLeft = durationMinutes * 60;
@@ -53,9 +54,8 @@ function updateTimer() {
 
 function calculateWPM() {
     const words = inputField.value.trim().split(/\s+/).length;
-    const minutes = (parseInt(timeLeft) ? (parseInt(timeLeft)) : 0) / 60;
-    const usedMinutes = ((parseInt(timeLeft) ? (parseInt(timeLeft)) : 0) - timeLeft) / 60;
-    return usedMinutes === 0 ? 0 : words / usedMinutes;
+    const elapsedMinutes = (new Date() - startTime) / 1000 / 60; // convert milliseconds to minutes
+    return elapsedMinutes === 0 ? 0 : words / elapsedMinutes;
 }
 
 function calculateAccuracy() {
