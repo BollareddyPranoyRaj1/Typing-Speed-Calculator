@@ -11,13 +11,22 @@
 <body>
     <div class="container">
         <h1>Typing Speed Test</h1>
-        <p id="timer">Time: 0s</p>
+
+        <label for="time-select">Select Test Duration:</label>
+        <select id="time-select">
+        <option value="1">1 Minute</option>
+        <option value="2">2 Minutes</option>
+    </select>
+        <button id="start">Start Test</button>
+
+        <p id="timer">Time Left: 0s</p>
         <p id="sample-text"></p>
-        <textarea id="input-field" placeholder="Start typing here..."></textarea>
+        <textarea id="input-field" placeholder="Start typing here..." disabled></textarea>
         <p id="wpm">WPM: 0</p>
         <p id="accuracy">Accuracy: 100%</p>
         <button id="restart">Restart</button>
     </div>
+
     <script src="script.js"></script>
 </body>
 
