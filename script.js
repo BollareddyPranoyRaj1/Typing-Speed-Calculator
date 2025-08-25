@@ -1,47 +1,61 @@
-const sampleTexts = [
-    "Type this text as fast as you can without mistakes!",
-    "Practice makes perfect. Keep typing and improve your speed.",
-    "JavaScript is fun! Try typing this as quickly as possible."
-];
-
+const baseParagraph = "The quick brown fox jumps over the lazy dog. This is a typing speed test to measure your words per minute and accuracy. Keep typing until the time runs out!";
 const sampleTextEl = document.getElementById('sample-text');
 const inputField = document.getElementById('input-field');
 const timerEl = document.getElementById('timer');
 const wpmEl = document.getElementById('wpm');
 const accuracyEl = document.getElementById('accuracy');
 const restartBtn = document.getElementById('restart');
+const startBtn = document.getElementById('start');
+const popup = document.getElementById('time-popup');
+const timeButtons = document.querySelectorAll('.time-btn');
 
-let startTime;
-let timerInterval;
 let totalMistakes = 0;
 let totalCharsTyped = 0;
+let timeLeft = 60; // seconds
+let timerInterval;
 
-function getRandomText() {
-    return sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
+function generateParagraph(durationMinutes) {
+    let text = "";
+    for (let i = 0; i < durationMinutes; i++) {
+        text += baseParagraph + "\n\n"; // add paragraph break
+    }
+    return text.trim();
 }
 
-function startTest() {
+
+function startTest(durationMinutes) {
+    timeLeft = durationMinutes * 60;
+
     inputField.value = '';
     inputField.disabled = false;
     totalMistakes = 0;
     totalCharsTyped = 0;
-    startTime = null;
-    timerEl.innerText = 'Time: 0s';
+    timerEl.innerText = `Time Left: ${timeLeft}s`;
     wpmEl.innerText = 'WPM: 0';
     accuracyEl.innerText = 'Accuracy: 100%';
-    sampleTextEl.innerHTML = getRandomText();
+    sampleTextEl.innerText = generateParagraph(durationMinutes);
     inputField.classList.remove('correct', 'incorrect');
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
 }
 
+// Timer and calculations remain same
 function updateTimer() {
-    const seconds = Math.floor((new Date() - startTime) / 1000);
-    timerEl.innerText = `Time: ${seconds}s`;
+    timeLeft--;
+    timerEl.innerText = `Time Left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        inputField.disabled = true;
+        inputField.classList.add('correct');
+    }
 }
 
 function calculateWPM() {
     const words = inputField.value.trim().split(/\s+/).length;
-    const minutes = (new Date() - startTime) / 1000 / 60;
-    return (words / minutes) || 0;
+    const minutes = (parseInt(timeLeft) ? (parseInt(timeLeft)) : 0) / 60;
+    const usedMinutes = ((parseInt(timeLeft) ? (parseInt(timeLeft)) : 0) - timeLeft) / 60;
+    return usedMinutes === 0 ? 0 : words / usedMinutes;
 }
 
 function calculateAccuracy() {
@@ -49,11 +63,6 @@ function calculateAccuracy() {
 }
 
 inputField.addEventListener('input', () => {
-    if (!startTime) {
-        startTime = new Date();
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-
     const typed = inputField.value;
     const sample = sampleTextEl.innerText;
 
@@ -61,19 +70,11 @@ inputField.addEventListener('input', () => {
     totalMistakes = 0;
 
     for (let i = 0; i < typed.length; i++) {
-        if (typed[i] !== sample[i]) {
-            totalMistakes++;
-        }
+        if (typed[i] !== sample[i]) totalMistakes++;
     }
 
-    if (typed === sample) {
-        clearInterval(timerInterval);
-        inputField.disabled = true;
-        inputField.classList.add('correct');
-    } else {
-        inputField.classList.remove('correct');
-        inputField.classList.toggle('incorrect', totalMistakes > 0);
-    }
+    inputField.classList.remove('correct');
+    inputField.classList.toggle('incorrect', totalMistakes > 0);
 
     wpmEl.innerText = `WPM: ${calculateWPM().toFixed(2)}`;
     accuracyEl.innerText = `Accuracy: ${calculateAccuracy().toFixed(2)}%`;
@@ -81,8 +82,22 @@ inputField.addEventListener('input', () => {
 
 restartBtn.addEventListener('click', () => {
     clearInterval(timerInterval);
-    startTest();
+    inputField.disabled = true;
+    sampleTextEl.innerText = "Select duration and click Start Test";
 });
 
-// Initialize test on page load
-startTest();
+startBtn.addEventListener('click', () => {
+    popup.classList.remove('hidden'); // Show popup
+});
+
+timeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const minutes = parseInt(btn.getAttribute('data-min'));
+        popup.classList.add('hidden'); // Hide popup
+        startTest(minutes);
+    });
+});
+
+// Initialize page (disable input until start)
+inputField.disabled = true;
+sampleTextEl.innerText = "Select duration and click Start Test";
